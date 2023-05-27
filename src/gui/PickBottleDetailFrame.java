@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class PickBottleDetailFrame extends JFrame {
+    JLabel authorLabel=new JLabel("Author:");
+    JLabel authorField=new JLabel();
+
     JLabel titleLabel=new JLabel("Bottle title:");
     JLabel titleField=new JLabel();
 
@@ -29,17 +32,23 @@ public class PickBottleDetailFrame extends JFrame {
     Bottle currentBottle = null;
     public PickBottleDetailFrame(){
         super("Pick Bottle Detail");
-        setSize(240, 410);
+        setSize(240, 450);
         setLocation(200,200);
 
         JPanel panel=new JPanel();
         panel.setLayout(null);
 
-        titleLabel.setBounds(10,10,200,20);
-        titleField.setBounds(10,30,200,20);
+        authorLabel.setBounds(10,10,200,20);
+        authorField.setBounds(10,30,200,20);
 
-        messageLabel.setBounds(10,50,200,20);
-        messageArea.setBounds(10,70,200,100);
+        panel.add(authorLabel);
+        panel.add(authorField);
+
+        titleLabel.setBounds(10,50,200,20);
+        titleField.setBounds(10,70,200,20);
+
+        messageLabel.setBounds(10,90,200,20);
+        messageArea.setBounds(10,110,200,100);
         messageArea.setEditable(false);
 
         panel.add(titleLabel);
@@ -49,16 +58,16 @@ public class PickBottleDetailFrame extends JFrame {
         panel.add(messageArea);
 
         // 评论展示面板
-        commentLabel.setBounds(10,180,200,20);
-        commentScrollPane.setBounds(10,200,200,100);
+        commentLabel.setBounds(10,220,200,20);
+        commentScrollPane.setBounds(10,240,200,100);
         commentPanel.setEditable(false);
         commentPanel.setLineWrap(true);
         panel.add(commentLabel);
         panel.add(commentScrollPane);
 
         // 评论组件
-        commentField.setBounds(10,310,200,25);
-        commentButton.setBounds(10,340,200,20);
+        commentField.setBounds(10,350,200,25);
+        commentButton.setBounds(10,380,200,20);
         commentButton.addActionListener(e->{
             if(commentField.getText().trim().equals("")){
                 javax.swing.JOptionPane.showMessageDialog(null, "Comment cannot be empty!");
@@ -88,11 +97,13 @@ public class PickBottleDetailFrame extends JFrame {
         this.titleField.setText(bottle.title);
         this.messageArea.setText(bottle.message);
 
+        this.authorField.setText(bottle.user.username);
+
         // 获取评论
         Comment[] comments=Main.dbManager.getCommentsOfBottle(bottle);
         StringBuilder commentText=new StringBuilder();
         for(Comment comment:comments){
-            commentText.append(TimeUtil.millsToMMDDHHmmSS(new Date(comment.created_at).getTime())).append(" - ").append(comment.message).append("\n");
+            commentText.append(TimeUtil.millsToMMDDHHmmSS(new Date(comment.created_at).getTime())).append(" ").append("["+comment.user.username+"]").append(" ").append(comment.message).append("\n");
         }
         this.commentPanel.setText(commentText.toString().trim().equals("")?"No comments":commentText.toString());
     }
