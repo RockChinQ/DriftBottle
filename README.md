@@ -6,6 +6,6 @@
 
 数据库结构符合3NF，数据表包括
 
-- user 用户表
-- bottle 漂流瓶表
-- comment 评论表
+- users 用户表
+- bottles 漂流瓶表
+- comments 评论表

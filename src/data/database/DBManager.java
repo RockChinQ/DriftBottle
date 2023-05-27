@@ -65,7 +65,7 @@ public class DBManager {
 
     public Comment[] getCommentsOfBottle(Bottle bottle)throws SQLException{
         ResultSet resultSet = this.statement.executeQuery(
-                "SELECT * FROM `comments` WHERE `bottle_id`="+bottle.id+" ORDER BY `created_at` DESC"
+                "SELECT * FROM `comments` WHERE `bottle_id`="+bottle.id+" ORDER BY `created_at` ASC "
         );
         ArrayList<Comment> comments = new ArrayList<>();
         while (resultSet.next()){

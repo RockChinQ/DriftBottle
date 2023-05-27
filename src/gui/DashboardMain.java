@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class DashboardMain extends JFrame {
     JButton dropBottle=new JButton("Drop Bottle");
@@ -25,7 +26,11 @@ public class DashboardMain extends JFrame {
         });
         pickBottle.setBounds(10,90,200,70);
         pickBottle.addActionListener(e -> {
-            pickBottleDetailFrame.setVisible(true);
+            try {
+                pickBottleDetailFrame.randomlyPickOne();
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Pick bottle failed: "+ex.getMessage());
+            }
         });
 
         panel.add(dropBottle);
