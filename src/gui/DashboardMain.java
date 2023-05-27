@@ -5,6 +5,8 @@ import data.models.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 public class DashboardMain extends JFrame {
@@ -22,7 +24,20 @@ public class DashboardMain extends JFrame {
 //        System.out.println("ui"+user.username);
         setSize(240, 260);
         setLocation(200,200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    Main.saveUser();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                System.exit(0);
+            }
+        });
+
         setVisible(true);
 
         JPanel panel=new JPanel();
@@ -32,6 +47,11 @@ public class DashboardMain extends JFrame {
         usernameField.setBounds(10,30,200,20);
 
         usernameField.setText(user.username);
+        usernameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Main.user.username=usernameField.getText();
+            }
+        });
 
         panel.add(usernameLabel);
         panel.add(usernameField);

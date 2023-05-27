@@ -40,4 +40,8 @@ public class Main {
         dashboardMain=new gui.DashboardMain(user);
         dashboardMain.setVisible(true);
     }
+
+    public static void saveUser() throws Exception {
+        FileIO.write("user.json", gson.toJson(user));
+    }
 }
